@@ -1,6 +1,19 @@
 from django.db import models
-import uuid
+from datetime import datetime
+from phonenumber_field.modelfields import PhoneNumberField
+
 # Create your models here.
+
+class Customer(models.Model):
+	firstname = models.CharField(max_length=200)
+	surname = models.CharField(max_length=200)
+	identification = models.CharField(max_length=20)
+	phone_number = models.PhoneNumberField(primary_key=True)
+	date_of_birth = models.DateField(default=datetime.now, blank=True)
+	balance = models.IntegerField()
+
+	def __str__ (self):
+		return "{} {}". format(self.firstname, self.surname)
 
 class Transaction(models.Model):
 	DEPOSIT = 'DP'
@@ -15,7 +28,7 @@ class Transaction(models.Model):
 	amount = models.DecimalField(max_digits=9, decimal_places=2)
 	date_of_transaction = models.DateTimeField()
 	cost = models.DecimalField(max_digits=9, decimal_places=2)
-	phone_number = models.ForeignKey(
+	customer_name = models.ForeignKey(
 		'Customer',
 		on_delete=models.SET("No transactions."),
 	)
@@ -27,10 +40,3 @@ class Transaction(models.Model):
 	transaction_id = models.CharField(max_length=20)
 	description = models.CharField(max_length=2000)
 
-class Customer(models.Model):
-	firstname = models.CharField(max_length=200)
-	surname = models.CharField(max_length=200)
-	identification = models.CharField(max_length=20)
-	phone_number = models.PositiveIntegerField()
-	transaction_id = models.CharField(max_length=7)
-	balance = models.IntegerField()
