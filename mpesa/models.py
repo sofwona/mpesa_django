@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
@@ -8,7 +8,7 @@ class Customer(models.Model):
 	firstname = models.CharField(max_length=200)
 	surname = models.CharField(max_length=200)
 	identification = models.CharField(max_length=20)
-	phone_number = models.PhoneNumberField(primary_key=True)
+	phone_number = models.CharField(primary_key=True, max_length = 23)
 	date_of_birth = models.DateField(default=datetime.now, blank=True)
 	balance = models.IntegerField()
 

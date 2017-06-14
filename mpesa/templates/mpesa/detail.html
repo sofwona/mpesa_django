@@ -1,0 +1,38 @@
+{% load static %}
+
+<link rel = "stylesheet" type="text/css" href="{% static 'mpesa/style.css' %}" />
+<link rel ="stylesheet" type="text/css" href="{% static 'mpesa/normalize.css' %}"/>
+
+<header>
+	<div class="1">
+		<p> MPESA </p>
+	</div>
+</header>
+
+<div class="main_container">
+
+	<h2> {{ transaction.transaction_type }} </h2>
+	<h2> {{ transaction.amount}} </h2>
+	<h3> {{ transaction.customer_name }} </h3>
+
+	<ul> 
+	{% for customer in transaction.customer_set.all %}
+		<li>{{ customer.firstname }} </li>
+	{% endfor %}
+	</ul>
+
+
+	{% if error_message %} <p><strong> {{ error_message }}</strong></p> {% endif %}
+
+	<form action="{% url 'mpesa:submit' transaction.id %}" method="post">
+	{% csrf_token %}
+	{% for customer in transaction.customer_set.all %}
+		<input type="radio" name="customer" id="customer {{ forloop.counter }}" value="{{ customer.id }}"/>
+		<label for="customer{{ forloop.counter }}"> {{ customer.identification}}</label><br />
+	{% endfor %}
+	<input type="submit" value="Submit"/>
+	</form>
+
+</div>
+
+<footer></footer>

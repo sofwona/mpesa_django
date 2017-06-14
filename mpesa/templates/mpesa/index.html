@@ -1,0 +1,29 @@
+{% load static %}
+
+<link rel = "stylesheet" type="text/css" href="{% static 'mpesa/style.css' %}" />
+<link rel ="stylesheet" type="text/css" href="{% static 'mpesa/normalize.css' %}"/>
+
+{% if latest_transaction_list %}
+
+	<header>
+		<div class="1">
+			<p> MPESA </p>
+		</div>
+	</header>
+
+	<div class="main_container">
+		<ul>
+		{% for transaction in latest_transaction_list %}
+			<li><a href ="{% url 'mpesa:detail' transaction.id %}" >{{ transaction.transaction_id }} </a></li>
+		{% endfor %}
+		</ul>
+	</div>
+
+{% else %}
+
+	<p>No transactions are available.</p>
+
+{% endif %}
+
+
+<footer></footer>
